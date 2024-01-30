@@ -107,10 +107,10 @@ config.toml：重命名为 hugo.toml，用来修改网站配置，使用频率�
 
 首先，在根目录打开终端的时候，设置
 
-    http_proxy = localhost:port
-    https_proxy = localhost:port
+    set http_proxy=127.0.0.1：10809
+    set https_proxy=127.0.0.1：10809
 
-端口自己改成转发端口。
+端口自己改成转发端口。记得别打空格。
 
 其次，在 `C:/Users/someone/.ssh` 打开 git bash 输入 `touch config` 建立一个 config 文件，并在 config 中写入 
 
@@ -125,10 +125,36 @@ config.toml：重命名为 hugo.toml，用来修改网站配置，使用频率�
 
 ## 0x07 完成远程关联
 
+    ~/public> git remote add origin git@github.com:xxxhidexxx/xxxhidexxx.github.io.git
+
 ***
 
-## 0x08 补充注释
+## 0x08 更新内容
 
-（1）文章时间的日期最多是 29，如果输入 2024-01-30 会出现报错。
+先更新源仓库。
 
-（2）关于 categories 和 tags 的区别。
+    cd ../
+    git add .
+    git commit -m "something"
+    git push
+
+再提交到 github pages 仓库。
+
+    ~/> cd public
+    ~/public> git add .
+    ~/public> git commit -m "something"
+    ~/public> git push origin main
+
+在第一次更新到 github pages 时如果远程与本地仓库不一致可以使用 `git pull -rebase origin main` 进行合并。
+
+***
+
+## 0x09 补充注释
+
+（0）建站过程中主要参考了 https://cuttontail.blog/blog/create-a-wesite-using-github-pages-and-hugo/ 这篇文章。他写的比较详细的东西我没重复写。
+
+（1）解决网络连接的问题主要参考了 https://docs.github.com/en/authentication/troubleshooting-ssh/using-ssh-over-the-https-port 这篇官方文档。
+
+（2）这个模板的文章时间的日期最多是 29，如果输入 2024-01-30 会出现报错。
+
+（3）categories 和 tags 技术上没什么区别。
