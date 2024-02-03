@@ -8,7 +8,7 @@ featured_image: ""
 images: []
 categories: "misc"
 comment: false
-draft: false
+draft: true
 ---
 
 这是一个备忘录，不是一个教程，只记录一些解决方法，不赘述来龙去脉。
@@ -19,7 +19,7 @@ draft: false
 
 ***
 
-## 0x00 前置 
+## 前置 
 
 时间：2024 年 1 月；系统：windows 11。
 
@@ -27,7 +27,7 @@ draft: false
 
 ***
 
-## 0x01 原理
+## 原理
 
 流程：本地建站，网站文件存入本地仓库，本地仓库关联远程仓库，剩下交给 github 托管。
 
@@ -35,7 +35,7 @@ draft: false
 
 ***
 
-## 0x02 建立远程仓库
+## 建立远程仓库
 
 建立两个新的仓库，分别作为源仓库和 github pages 的仓库。
 
@@ -47,13 +47,13 @@ draft: false
 
 ***
 
-## 0x03 本地建站
+## 本地建站
 
 进入刚刚克隆到本地的仓库文件夹，打开终端，这个目录将会作为网站的根目录。在终端输入 `~/>  hugo new site something` 就会看到在根目录下出现了 hugo 建立的特定名称的若干文件夹和文件。
 
 ***
 
-## 0x04 配置样式
+## 配置样式
 
 分别键入: 
 
@@ -71,7 +71,7 @@ draft: false
 
 ***
 
-## 0x05 建立本地仓库
+## 建立本地仓库
 
 首先 `~/> hugo new helloworld.md` 建立一个 hello world 文件，然后用 `~/> hugo` 更新 /public。
 
@@ -83,7 +83,7 @@ draft: false
 
 ***
 
-## 0x06 重建网络连接
+## 重建网络连接
 
 这是这篇文章的重点，因为其他的内容比较容易在网上查到。
 
@@ -115,13 +115,13 @@ draft: false
 
 ***
 
-## 0x07 完成远程关联
+## 完成远程关联
 
     ~/public> git remote add origin git@github.com:xxxhidexxx/xxxhidexxx.github.io.git
 
 ***
 
-## 0x08 更新内容
+## 更新内容
 
 先将本地的修改更新到 github 的源仓库。
 
@@ -141,16 +141,12 @@ draft: false
 
 ***
 
-## 0x09 补充注释
+## 补充注释
 
 （0）建站过程中主要参考了 https://cuttontail.blog/blog/create-a-wesite-using-github-pages-and-hugo/ 这篇文章。他写的比较详细的东西我没重复写。
 
 （1）解决网络连接的问题主要参考了 https://docs.github.com/en/authentication/troubleshooting-ssh/using-ssh-over-the-https-port 这篇官方文档。
 
-（2）这个模板的文章时间的日期最多是 29，如果输入 2024-01-30 会出现报错。
+（2）如果我们希望在 /content 建立子目录，则需要参照 hugo 文档，将 content/ 的子文件夹按照特定的规则进行命名，例如 /content/posts。
 
-（3）categories 和 tags 技术上没什么区别。
-
-（4）如果我们希望在 /content 建立子目录，则需要参照 hugo 文档，将 content/ 的子文件夹按照特定的规则进行命名，例如 /content/posts。
-
-（5）记得将 /archetypes/default.md 中的 draft 值改为 false。
+（3）记得将 /archetypes/default.md 中的 draft 值改为 false。

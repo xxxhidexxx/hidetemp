@@ -69,11 +69,11 @@ theme="github-light"
 [[menu.main]]
 url = "/categories"
 name = "Categories"
-weight = 1
+weight = 2
 [[menu.main]]
 url = "/tags"
 name = "Tags"
-weight = 2
+weight = 3
 #[[menu.main]]
 #url = "/"
 #name = "Archive"
