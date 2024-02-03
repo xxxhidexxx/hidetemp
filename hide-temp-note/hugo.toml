@@ -20,7 +20,7 @@ theme = "diary"
     
 
 [params]
-subtitle = "this world shall know pain"
+subtitle = ""
 enableGitalk = false
 enableGiscus = true
 enableLaTeX = true
@@ -68,15 +68,15 @@ theme="github-light"
 
 [[menu.main]]
 url = "/categories"
-name = "Categories"
+name = "分类"
 weight = 2
 [[menu.main]]
 url = "/tags"
-name = "Tags"
+name = "标签"
 weight = 3
 #[[menu.main]]
 #url = "/"
-#name = "Archive"
+#name = "备忘录"
 #weight = 1
 #[[menu.main]]
 #url = "/index.xml"
