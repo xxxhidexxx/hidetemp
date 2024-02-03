@@ -20,7 +20,7 @@ theme = "diary"
     
 
 [params]
-subtitle = ""
+subtitle = "this world shall know pain"
 enableGitalk = false
 enableGiscus = true
 enableLaTeX = true
