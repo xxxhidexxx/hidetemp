@@ -2,7 +2,7 @@
 title: "Oracle 联合注入"
 date: 2024-02-02
 description: "靶场演示"
-tags: ["sql 注入","后端漏洞"]
+tags: ["SQL 注入","后端漏洞"]
 featured_image: ""
 # images is optional, but needed for showing Twitter Card
 images: []

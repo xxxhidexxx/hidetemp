@@ -2,7 +2,7 @@
 title: "MySQL 联合注入"
 date: 2024-02-01
 description: "靶场演示"
-tags: ["SQL 注入", "后端漏洞" ]
+tags: ["SQL 注入","后端漏洞" ]
 featured_image: ""
 # images is optional, but needed for showing Twitter Card
 images: []
@@ -13,7 +13,7 @@ draft: false
 
 对 mysql 进行联合注入是在有回显点的情况下用 union select 直接查询数据库内容，查询结果在回显点用 group_concat 输出。常见的关系型数据库都有系统自带库，mysql 的是 information_schema 这个库，其中存储着全部库名、表名、字段名。我们这里要做的是在 information_schema 找到关键的库、表、字段，从而找到 flag。
 
-靶场界面如下。
+webug 4.0 的联合注入靶场界面如下。
 
 ![sqli1](/images/sqli1/sqli1-0.png)
 
