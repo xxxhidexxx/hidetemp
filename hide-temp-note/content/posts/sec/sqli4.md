@@ -1,7 +1,7 @@
 ---
 title: "熊海 CMS 后台登录的 SQL 注入"
 date: 2024-02-12
-description: "管理员登录页面可以在不登陆的情况下用 SQL 注入泄露数据库信息"
+description: "管理员登录页面可以在不登录的情况下对 POST 的表单做 SQL 注入，利用语法报错泄露数据库信息"
 tags: ["SQL注入","后端漏洞"]
 featured_image: ""
 # images is optional, but needed for showing Twitter Card
