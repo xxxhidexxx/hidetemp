@@ -1,5 +1,5 @@
 ---
-title: "BlueCMS v1.6 存在 XFF 伪造漏洞"
+title: "Blue CMS v1.6 留言区存在 XFF 伪造漏洞"
 date: 2024-02-15
 description: "留言区获取 ip 的函数存在 SQL 注入点，在 POST 请求头伪造 XFF 可以实现注入"
 tags: ["SQL 注入","后端漏洞"]
