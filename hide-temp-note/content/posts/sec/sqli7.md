@@ -18,7 +18,7 @@ draft: false
 ![sqli7](/images/sqli1/sqli7-4.png)
 
 发现 sertype 变量在加入恒真恒伪后提供了一个布尔盲注点位。
-
+ 
     POST /index.php/index/search HTTP/1.1
     Host: 111.9.41.91:53009
     User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0
