@@ -1,5 +1,5 @@
 ---
-title: "SQL 注入绕 WAF"
+title: "SQL 注入绕过 WAF"
 date: 2024-03-06
 description: "用内联注释绕过最新版安全狗拦截"
 tags: ["SQL 注入","后端漏洞"]

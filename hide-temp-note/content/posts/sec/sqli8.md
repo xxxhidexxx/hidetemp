@@ -1,7 +1,7 @@
 ---
-title: "掌控安全靶场 pass-15"
+title: "宽字节注入靶场"
 date: 2024-03-06
-description: "宽字节注入"
+description: "掌控安全靶场 pass-15"
 tags: ["SQL 注入","后端漏洞"]
 featured_image: ""
 # images is optional, but needed for showing Twitter Card
