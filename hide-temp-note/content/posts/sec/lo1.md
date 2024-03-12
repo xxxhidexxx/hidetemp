@@ -27,10 +27,6 @@ draft: false
 
 ![lo1](/images/weblogic/lo1-3.png)
 
-![lo1](/images/weblogic/lo1-5.png)
-
-![lo1](/images/weblogic/lo1-6.png)
-
 ![lo1](/images/weblogic/lo1-7.png)
 
 订单页面看到了 flag=ywaq{zxdijGcztU}。

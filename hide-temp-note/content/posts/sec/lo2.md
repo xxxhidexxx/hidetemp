@@ -1,5 +1,5 @@
 ---
-title: easy CMS 支付逻辑漏洞"
+title: "easy CMS 支付逻辑漏洞"
 date: 2024-03-10
 description: "改数量为负可实现零元购，前端拦截可绕过"
 tags: ["逻辑漏洞"]
