@@ -1,5 +1,5 @@
 ---
-title: "vlCMS 无密码登录"
+title: "vl CMS 无密码登录"
 date: 2024-03-11
 description: "无密码登录其他人的账号"
 tags: ["逻辑漏洞"]
@@ -26,3 +26,5 @@ draft: false
 ![lo3](/images/weblogic/lo3-3.png)
 
 进入个人中心得到 flag=ywaq{uhgzxdygfh}。
+
+添加 &id=1 是常用绕过手法。

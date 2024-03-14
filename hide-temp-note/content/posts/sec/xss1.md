@@ -1,5 +1,5 @@
 ---
-title: "YzmCMS 存在反射型 XSS"
+title: "Yzm CMS 存在反射型 XSS"
 date: 2024-03-09
 description: "主页面搜索功能三个参数都存在 xss"
 tags: ["XSS","前端漏洞"]
