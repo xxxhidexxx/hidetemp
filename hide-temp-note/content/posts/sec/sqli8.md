@@ -8,7 +8,7 @@ featured_image: ""
 images: []
 categories: "sec"
 comment: false
-draft: false
+draft: true
 ---
 
 起因。网站开发防止 SQL 注入添加了 PHP 函数：addslashes()。php语言中的addslashes()函数在指定的预定义字符前添加反斜杠，这些字符是单引号(')，双引号(")，反斜线（\）与NUL（NULL字符）。例如客户端提交的参数中如果含有单引号，双引号等这些特殊字符，addslashes 函数则会在单引号前加反斜线“\”，将单引号转义成没有功能性的字符。

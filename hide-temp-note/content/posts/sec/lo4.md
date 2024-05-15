@@ -1,6 +1,6 @@
 ---
 title: "MetInfo v4.0 越权修改密码"
-date: 2024-03-13
+date: 2024-03-12
 description: "修改密码的包替换 userid 可以修改任意用户密码，之后可以登录到任意用户"
 tags: ["逻辑漏洞"]
 featured_image: ""
