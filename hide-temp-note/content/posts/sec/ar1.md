@@ -8,7 +8,7 @@ featured_image: ""
 images: []
 categories: "sec"
 comment: false
-draft: false
+draft: true
 ---
 
 我们用 webug 演示。首先看到一个下载文件的按钮，打开查看器，找到这个按钮，看到路径使用 file 协议，直接访问内网。
