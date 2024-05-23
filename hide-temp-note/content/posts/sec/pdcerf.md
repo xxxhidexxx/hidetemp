@@ -1,5 +1,5 @@
 ---
-title: "应急响应流程和网络安全基础"
+title: "应急响应流程和网络安全常识"
 date: 2024-04-18
 description: "pdcerf"
 tags: ["蓝队理论"]
@@ -804,7 +804,7 @@ shiro721 不需要知道 key，但是需要一个合法登录用户的 cookie �
 
 无依赖利用链，具体情况可以使用工具 ysoserial。
 
-因为我们知道 Shiro 原生类中是不存在 Commons-Collection 依赖的，所以当没有 CC 依赖的时候我们就无法通过 CC 链进行攻击，我们就需要另外找一个无依赖的方式对 Shiro 的反序列化漏洞进行利用：例如通过 Shiro 自带的依赖 Commons-Beanutils 进行攻击。
+因为我们知道 Shiro 原生类中是不存在 Commons-Collection CC 依赖的时候我们就无法通过 CC 链进行攻击，我们就需要另外找一个无依赖的方式对 Shiro 的反序列化漏洞进行利用：例如通过 Shiro 自带的依赖 Commons-Beanutils 进行攻击。
 
 ---
 
